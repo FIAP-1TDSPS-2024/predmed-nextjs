@@ -28,11 +28,11 @@ const students = [
 
 export default function Home() {
   return (
-    <div className="flex flex-col min-h-screen bg-gray-100">
+    <div className="flex flex-col min-h-screen">
       <div className="flex-1 flex flex-col items-center justify-center">
         <div className="flex items-center justify-center">
           <h1 className="text-4xl font-bold">
-            <span className="text-red-600">CaT</span>
+            <span className="text-[#1565C0]">CaT</span>
             <span className="text-gray-800">ech</span>
           </h1>
         </div>
@@ -45,7 +45,7 @@ export default function Home() {
 
         <Link
           href="/home"
-          className="px-12 py-4 bg-gray-800 text-white rounded cursor-pointer hover:bg-gray-700 transition-colors mt-8"
+          className="px-12 py-4 bg-[#1E88E5] text-white font-bold rounded cursor-pointer hover:bg-[#1565C0] transition-colors mt-8"
         >
           Home
         </Link>
