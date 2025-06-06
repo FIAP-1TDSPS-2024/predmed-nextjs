@@ -1,12 +1,13 @@
 "use client";
 
-import AppHeader from "@/components/common/AppHeader";
 import TriageForm from "@/components/triage/TriageForm";
 import { triageService, triageQuestions } from "@/services/triage";
 import { useRouter, useParams } from "next/navigation";
 import { useState } from "react";
 import type { CreateTriageData } from "@/types/Triage";
 import Swal from "sweetalert2";
+import Header from "@/components/common/Header";
+import { Footer } from "@/components/common/Footer";
 
 const CadastrarTriagem = () => {
   const router = useRouter();
@@ -79,10 +80,9 @@ const CadastrarTriagem = () => {
 
   return (
     <div className="min-h-screen flex flex-col">
-      <AppHeader title="PredMed" />
+      <Header />
 
-      {/* Main content */}
-      <main className="flex-grow bg-blue-50 px-4">
+      <main className="flex-grow bg-blue-50 px-4 mb-8">
         <div className="max-w-md mx-auto">
           <h2 className="text-3xl font-bold text-black text-center my-6 border-b border-gray-300 pb-4">
             Nova triagem
@@ -95,6 +95,7 @@ const CadastrarTriagem = () => {
           />
         </div>
       </main>
+      <Footer />
     </div>
   );
 };

@@ -46,7 +46,7 @@ export const PatientCard = ({ patient }: PatientCardProps) => {
           confirmButtonColor: "#1E88E5",
         });
 
-        router.refresh(); // Refresh the page to update the list
+        window.location.reload(); // Reload the page to reflect changes
       } catch (error) {
         console.error("Erro ao excluir paciente:", error);
 
