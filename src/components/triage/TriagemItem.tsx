@@ -53,7 +53,33 @@ const TriagemItem = ({
               ? "Paciente apresenta risco alto de COVID-19. Recomenda-se isolamento e monitoramento."
               : "Paciente assintomático. Não há indicação de risco elevado no momento."}
           </p>
-          <div className="flex justify-end mt-2">
+
+          <div className="mt-4 bg-blue-50 p-3 rounded-md border border-blue-200">
+            <h4 className="font-semibold text-blue-800 mb-1">
+              Próximos passos
+            </h4>
+            {tag === "Risco alto de covid" ? (
+              <ul className="list-disc pl-5 text-gray-700 text-sm space-y-1">
+                <li>
+                  Entre em contato com o paciente para informar o resultado
+                </li>
+                <li>Agende uma consulta de acompanhamento em 48 horas</li>
+                <li>Encaminhe as orientações de isolamento por e-mail</li>
+                <li>Registre o caso no sistema de vigilância epidemiológica</li>
+              </ul>
+            ) : (
+              <ul className="list-disc pl-5 text-gray-700 text-sm space-y-1">
+                <li>
+                  Informe ao paciente que não há sinais de risco no momento
+                </li>
+                <li>Recomende monitoramento de sintomas por 7 dias</li>
+                <li>Oriente sobre medidas preventivas gerais</li>
+                <li>Agende retorno apenas se surgirem novos sintomas</li>
+              </ul>
+            )}
+          </div>
+
+          <div className="flex justify-end mt-4">
             <button
               onClick={(e) => {
                 e.stopPropagation();
