@@ -78,13 +78,12 @@ const TriagemList = ({ patientId, initialTriagens = [] }: TriagemListProps) => {
             </p>
           </div>
         ) : (
-          triagens.map((triagem) => (
+          triagens?.map((triagem) => (
             <TriagemItem
               key={triagem.id}
               id={triagem.id}
               label={triagem.label}
               tag={triagem.tag}
-              tagColor={triagem.tagColor}
               expanded={!!triagem.expanded}
               onToggle={toggleTriagem}
             />

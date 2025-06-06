@@ -11,7 +11,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem("predmed_token");
-    if (token && !config.url?.includes("/api/login")) {
+    if (token && !config.url?.includes("/login")) {
       config.headers.Authorization = `Bearer ${token}`;
     }
     return config;

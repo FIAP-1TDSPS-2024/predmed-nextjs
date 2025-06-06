@@ -5,7 +5,6 @@ export interface TriagemDisplay {
   id: number;
   label: string;
   tag: string;
-  tagColor: string;
   expanded?: boolean;
   TriageItem?: Triage;
 }

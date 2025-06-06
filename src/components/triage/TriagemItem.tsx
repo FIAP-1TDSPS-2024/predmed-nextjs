@@ -4,7 +4,6 @@ interface TriagemItemProps {
   id: number;
   label: string;
   tag: string;
-  tagColor: string;
   expanded: boolean;
   onToggle: (id: number) => void;
 }
@@ -13,7 +12,6 @@ const TriagemItem = ({
   id,
   label,
   tag,
-  tagColor,
   expanded,
   onToggle,
 }: TriagemItemProps) => {
@@ -26,7 +24,9 @@ const TriagemItem = ({
         <div className="flex items-center gap-2">
           <span className="text-gray-800 font-medium">{label}</span>
           <span
-            className={`text-xs text-white px-2 py-1 rounded-full ${tagColor}`}
+            className={`text-xs text-white px-2 py-1 rounded-full ${
+              tag === "Risco alto de covid" ? "bg-[#C62828]" : "bg-[#388E3C]"
+            }`}
           >
             {tag}
           </span>

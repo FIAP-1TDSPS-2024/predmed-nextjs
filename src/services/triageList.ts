@@ -17,20 +17,21 @@ export const triageListService = {
         patientId
       );
 
+      if (!triages || triages.length === 0) {
+        return [];
+      }
+
       // Format the triages for display
       const formattedTriages: TriagemDisplay[] = triages.map(
         (triage, index) => {
           // Determine tag and color based on diagnostic status
           let tag = "Assintomático";
-          let tagColor = "bg-[#388E3C]"; // Green for asymptomatic
 
           if (triage.diagnostico) {
             if (triage.diagnostico.provavelCovid) {
               tag = "Risco alto de covid";
-              tagColor = "bg-[#C62828]"; // Red for high risk
             } else {
               tag = "Assintomático";
-              tagColor = "bg-[#388E3C]"; // Green for asymptomatic
             }
           }
 
@@ -43,7 +44,6 @@ export const triageListService = {
             id: triage.id,
             label,
             tag,
-            tagColor,
             expanded: index === 0,
             TriageItem: triage, // Include the full triage item for further details
           };
