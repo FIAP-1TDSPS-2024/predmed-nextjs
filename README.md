@@ -45,6 +45,16 @@ No ambiente de saúde, o gerenciamento eficiente de pacientes e o processo de tr
 - **VS Code** — Ambiente de desenvolvimento
 - **Git/GitHub** — Controle de versão e hospedagem do projeto
 
+🖥️ **BACKEND**
+
+- **QUARKUS** — Framework Java para criação de aplicações modernas
+  - Java — Linguagem de programação orientada a objetos
+  - JWT — Autenticação e segurança via tokens
+
+🗄️ **Banco de Dados**
+
+- **OracleSQL** — Sistema de gerenciamento de banco de dados relacional
+
 ---
 
 &nbsp;
@@ -54,6 +64,30 @@ No ambiente de saúde, o gerenciamento eficiente de pacientes e o processo de tr
 - **Autenticação de usuários** — Sistema seguro de login
 - **Gestão de pacientes** — Cadastro, visualização e edição
 - **Processo de triagem** — Fluxo estruturado para triagem de pacientes
+
+---
+
+&nbsp;
+
+## 🔌 API Endpoints (Backend)
+
+### Autenticação
+
+- **POST /api/login** — Autenticação de usuários com JWT
+
+### Pacientes
+
+- **GET /api/pacientes** — Listar todos os pacientes
+- **GET /api/pacientes/{id}** — Buscar paciente por ID
+- **POST /api/pacientes** — Cadastrar novo paciente
+- **PUT /api/pacientes/{id}** — Atualizar dados do paciente
+- **DELETE /api/pacientes/{id}** — Excluir paciente
+
+### Triagem
+
+- **GET /api/triagem/paciente/{id}** — Listar triagens de um paciente
+- **POST /api/triagem/{pacienteId}** — Criar nova triagem para paciente
+- **POST /api/diagnostico/{triagemId}** — Gerar diagnóstico para triagem
 
 ---
 
@@ -98,7 +132,7 @@ https://youtu.be/JUZi-lIVmG8
 #### Projeto em produção
 
 ```
-https://ccr-time-tracker-next.vercel.app
+https://predmed-nextjs.vercel.app
 ```
 
 #### Repositório GitHub
