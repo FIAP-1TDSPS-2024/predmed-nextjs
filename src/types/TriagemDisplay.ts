@@ -1,3 +1,5 @@
+import { Triage } from "./Triage";
+
 // Frontend representation of a triagem item for display purposes
 export interface TriagemDisplay {
   id: number;
@@ -5,6 +7,7 @@ export interface TriagemDisplay {
   tag: string;
   tagColor: string;
   expanded?: boolean;
+  TriageItem?: Triage;
 }
 
 // This interface can be extended later to include more details

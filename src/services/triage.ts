@@ -3,7 +3,7 @@ import { Triage, CreateTriageData, Diagnostico } from "../types/Triage";
 
 export const triageService = {
   // Get all triages for a patient
-  getPatientTriages: async (patientId: string): Promise<Triage[]> => {
+  getPatientTriages: async (patientId: number): Promise<Triage[]> => {
     try {
       const response = await api.get(`/triagem/paciente/${patientId}`);
       return response.data;

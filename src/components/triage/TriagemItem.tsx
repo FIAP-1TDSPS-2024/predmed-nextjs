@@ -43,8 +43,9 @@ const TriagemItem = ({
         <div className="mt-3">
           <h3 className="font-semibold mb-2 text-gray-800">Diagnóstico</h3>
           <p className="text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur
-            vitae eros diam.
+            {tag === "Risco alto de covid"
+              ? "Paciente apresenta risco alto de COVID-19. Recomenda-se isolamento e monitoramento."
+              : "Paciente assintomático. Não há indicação de risco elevado no momento."}
           </p>
           <div className="flex justify-end mt-2">
             <button className="bg-blue-500 text-white px-3 py-1 rounded text-sm">
