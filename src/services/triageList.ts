@@ -45,7 +45,7 @@ export const triageListService = {
             label,
             tag,
             expanded: index === 0,
-            TriageItem: triage, // Include the full triage item for further details
+            answers: triage, // Include the full triage item for further details
           };
         }
       );

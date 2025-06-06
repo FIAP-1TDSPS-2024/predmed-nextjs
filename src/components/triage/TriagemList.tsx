@@ -84,6 +84,7 @@ const TriagemList = ({ patientId, initialTriagens = [] }: TriagemListProps) => {
               id={triagem.id}
               label={triagem.label}
               tag={triagem.tag}
+              answers={triagem.answers}
               expanded={!!triagem.expanded}
               onToggle={toggleTriagem}
             />

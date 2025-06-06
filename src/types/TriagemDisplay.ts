@@ -6,7 +6,7 @@ export interface TriagemDisplay {
   label: string;
   tag: string;
   expanded?: boolean;
-  TriageItem?: Triage;
+  answers?: Triage;
 }
 
 // This interface can be extended later to include more details

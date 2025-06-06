@@ -1,10 +1,14 @@
+import { Triage } from "@/types/Triage";
 import Image from "next/image";
+import { useState } from "react";
+import AnswersModal from "./AnswersModal";
 
 interface TriagemItemProps {
   id: number;
   label: string;
   tag: string;
   expanded: boolean;
+  answers?: Triage;
   onToggle: (id: number) => void;
 }
 
@@ -13,8 +17,10 @@ const TriagemItem = ({
   label,
   tag,
   expanded,
+  answers,
   onToggle,
 }: TriagemItemProps) => {
+  const [showAnswers, setShowAnswers] = useState(false);
   return (
     <div className="bg-gray-200 rounded-lg p-3">
       <div
@@ -48,11 +54,21 @@ const TriagemItem = ({
               : "Paciente assintomático. Não há indicação de risco elevado no momento."}
           </p>
           <div className="flex justify-end mt-2">
-            <button className="bg-blue-500 text-white px-3 py-1 rounded text-sm">
+            <button
+              onClick={(e) => {
+                e.stopPropagation();
+                setShowAnswers(true);
+              }}
+              className="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600 transition-colors"
+            >
               Ver respostas
             </button>
           </div>
         </div>
+      )}
+
+      {showAnswers && answers && (
+        <AnswersModal answers={answers} onClose={() => setShowAnswers(false)} />
       )}
     </div>
   );
