@@ -2,60 +2,79 @@
 
 import AppHeader from "@/components/common/AppHeader";
 import TriageForm from "@/components/triage/TriageForm";
+import { triageService, triageQuestions } from "@/services/triage";
+import { useRouter, useParams } from "next/navigation";
+import { useState } from "react";
+import type { CreateTriageData } from "@/types/Triage";
+import Swal from "sweetalert2";
 
 const CadastrarTriagem = () => {
-  // Define questions from perguntas.txt
-  const triageQuestions = [
-    {
-      id: "problemaRespiratorio",
-      text: "Você está com dificuldade para respirar?",
-    },
-    { id: "febre", text: "Você teve febre recentemente?" },
-    { id: "tosseSeca", text: "Você está com tosse seca?" },
-    { id: "dorGarganta", text: "Você está com dor de garganta?" },
-    { id: "coriza", text: "Você está com coriza ou nariz escorrendo?" },
-    { id: "dorCabeca", text: "Você está com dor de cabeça?" },
-    {
-      id: "fadiga",
-      text: "Você está se sentindo muito cansado(a) ou com fadiga?",
-    },
-    { id: "asma", text: "Você tem asma?" },
-    {
-      id: "doencaPulmonarCronica",
-      text: "Você tem alguma doença pulmonar crônica (como bronquite crônica ou enfisema)?",
-    },
-    { id: "doencaCardiaca", text: "Você tem alguma doença cardíaca?" },
-    { id: "diabetes", text: "Você tem diabetes?" },
-    { id: "hipertensao", text: "Você tem hipertensão (pressão alta)?" },
-    {
-      id: "problemasGastro",
-      text: "Você teve problemas gastrointestinais recentes (como diarreia, náuseas ou vômito)?",
-    },
-    {
-      id: "viagemExterior",
-      text: "Você viajou para o exterior nos últimos 14 dias?",
-    },
-    {
-      id: "contatoInfectado",
-      text: "Você teve contato próximo com alguém infectado por COVID-19 (ou outra doença infecciosa relevante)?",
-    },
-    {
-      id: "multidao",
-      text: "Você esteve em locais com muita gente recentemente (ex: eventos, festas)?",
-    },
-    {
-      id: "localPublico",
-      text: "Você foi a locais públicos fechados nos últimos dias (ex: shopping, supermercado)?",
-    },
-    {
-      id: "familarLocalPublico",
-      text: "Alguém que mora com você esteve em locais públicos recentemente?",
-    },
-  ];
+  const router = useRouter();
+  const params = useParams();
+  const patientId = params.id as string;
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleGenerateDiagnosis = (answers: { [key: string]: boolean }) => {
-    console.log("Diagnosis data:", answers);
-    alert("Diagnóstico gerado com sucesso!");
+  const handleGenerateDiagnosis = async (answers: {
+    [key: string]: boolean;
+  }) => {
+    try {
+      setIsSubmitting(true);
+
+      // Step 1: Create the triage
+      const triageData: CreateTriageData = {
+        problemaRespiratorio: answers.problemaRespiratorio,
+        febre: answers.febre,
+        tosseSeca: answers.tosseSeca,
+        dorGarganta: answers.dorGarganta,
+        coriza: answers.coriza,
+        asma: answers.asma,
+        doencaPulmonarCronica: answers.doencaPulmonarCronica,
+        dorCabeca: answers.dorCabeca,
+        doencaCardiaca: answers.doencaCardiaca,
+        diabetes: answers.diabetes,
+        hipertensao: answers.hipertensao,
+        fadiga: answers.fadiga,
+        problemasGastro: answers.problemasGastro,
+        viagemExterior: answers.viagemExterior,
+        contatoInfectado: answers.contatoInfectado,
+        multidao: answers.multidao,
+        localPublico: answers.localPublico,
+        familarLocalPublico: answers.familarLocalPublico,
+      };
+
+      const createdTriage = await triageService.createTriage(
+        patientId,
+        triageData
+      );
+
+      // Step 2: Generate diagnostic using the triage ID
+      const triageId = createdTriage.id.toString();
+      triageService.generateDiagnostic(triageId);
+
+      // Success alert with SweetAlert2
+      await Swal.fire({
+        title: "Sucesso!",
+        text: "Diagnóstico gerado com sucesso!",
+        icon: "success",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#3085d6",
+      });
+
+      // Step 3: Redirect back to patient page
+      router.push(`/paciente/${patientId}`);
+    } catch (error) {
+      console.error("Error in triage/diagnosis process:", error);
+      // Error alert with SweetAlert2
+      await Swal.fire({
+        title: "Erro!",
+        text: "Erro ao gerar diagnóstico. Por favor, tente novamente.",
+        icon: "error",
+        confirmButtonText: "OK",
+        confirmButtonColor: "#d33",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -72,6 +91,7 @@ const CadastrarTriagem = () => {
           <TriageForm
             questions={triageQuestions}
             onSubmit={handleGenerateDiagnosis}
+            isSubmitting={isSubmitting}
           />
         </div>
       </main>
