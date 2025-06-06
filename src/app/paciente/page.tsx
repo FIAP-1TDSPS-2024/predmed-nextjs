@@ -1,28 +1,42 @@
 "use client";
 
-import { useState } from "react";
-import { Footer } from "@/components/Footer";
-import Header from "@/components/Header";
+import { useEffect, useState } from "react";
+import { Footer } from "@/components/common/Footer";
+import Header from "@/components/common/Header";
 import { SearchBar } from "@/components/pacient/SearchBar";
 import { PatientList } from "@/components/pacient/PatientList";
 import { ActionButton } from "@/components/pacient/ActionButton";
 import { Patient } from "@/types/Patient";
+import { patientService } from "@/services/patient";
 
 const Paciente = () => {
-  // Define sample patient data (in a real app, this would come from an API)
-  const patients: Patient[] = [
-    { id: "1", name: "Adriano Sergio Da Silva" },
-    { id: "2", name: "Teste Oliveira" },
-    { id: "3", name: "Teste Paciente" },
-  ];
-
-  // State for the search term
+  const [patients, setPatients] = useState<Patient[]>([]);
+  const [filteredPatients, setFilteredPatients] = useState<Patient[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
 
-  // Filter patients based on search term
-  const filteredPatients = patients.filter((patient) =>
-    patient.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        // Fetch patients from the backend
+        const response = await patientService.getPatients();
+        setPatients(response);
+        setFilteredPatients(response);
+      } catch (error) {
+        console.error("Error fetching patients:", error);
+      }
+    };
+
+    // Call the fetch function when the component mounts
+    fetchPatients();
+  }, []);
+
+  useEffect(() => {
+    // Filter patients based on the search term
+    const filtered = patients.filter((patient) =>
+      patient.nome.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+    setFilteredPatients(filtered);
+  }, [searchTerm, patients]);
 
   return (
     <div className="flex flex-col min-h-screen">

@@ -1,12 +1,21 @@
 "use client";
 import { useForm } from "react-hook-form";
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+
 import FormInput from "./FormInput";
+import FormRadio from "./FormRadio";
+
+import { patientService, CreatePatientData } from "@/services/patient";
 
 export type PacienteFormData = {
   nome: string;
   cpf: string;
   email: string;
   telefone: string;
+  dataNascimento: string;
+  sexo: string;
 };
 
 const PatientForm = () => {
@@ -17,14 +26,51 @@ const PatientForm = () => {
     reset,
   } = useForm<PacienteFormData>();
 
-  const onSubmit = (data: PacienteFormData) => {
-    console.log(data);
-    // Aqui você enviaria os dados para o backend
-    alert("Paciente cadastrado com sucesso!");
-    reset();
+  const router = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-    // Redirecionar ou limpar o formulário após o envio
-    window.location.href = "/paciente";
+  const onSubmit = async (data: PacienteFormData) => {
+    try {
+      setIsLoading(true);
+
+      // Format the data for the API
+      const patientData: CreatePatientData = {
+        id: 0,
+        nome: data.nome,
+        cpf: data.cpf,
+        email: data.email,
+        celular: data.telefone,
+        dataNascimento: data.dataNascimento,
+        sexo: data.sexo as "M" | "F",
+      };
+
+      // Send data to the backend via patientService
+      await patientService.createPatient(patientData);
+
+      // Show success message
+      Swal.fire({
+        title: "Sucesso!",
+        text: "Paciente cadastrado com sucesso!",
+        icon: "success",
+        confirmButtonColor: "#1E88E5",
+      });
+
+      reset();
+
+      // Redirect to patient list
+      router.push("/paciente");
+    } catch (error) {
+      console.error("Error creating patient:", error);
+
+      Swal.fire({
+        title: "Erro!",
+        text: "Ocorreu um erro ao cadastrar o paciente. Tente novamente.",
+        icon: "error",
+        confirmButtonColor: "#1E88E5",
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -82,11 +128,39 @@ const PatientForm = () => {
         error={errors.telefone}
       />
 
+      <FormInput
+        id="dataNascimento"
+        placeholder="Data de Nascimento"
+        type="date"
+        register={register}
+        rules={{ required: "Data de nascimento é obrigatória" }}
+        error={errors.dataNascimento}
+      />
+
+      <FormRadio
+        id="sexo"
+        label="Sexo"
+        options={[
+          { value: "M", label: "Masculino" },
+          { value: "F", label: "Feminino" },
+        ]}
+        register={register}
+        rules={{ required: "Sexo é obrigatório" }}
+        error={errors.sexo}
+      />
+
       <button
         type="submit"
-        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors"
+        disabled={isLoading}
+        className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600 transition-colors disabled:bg-gray-400 disabled:cursor-not-allowed"
       >
-        Cadastrar paciente
+        {isLoading ? (
+          <span className="flex items-center justify-center">
+            Processando...
+          </span>
+        ) : (
+          "Cadastrar paciente"
+        )}
       </button>
     </form>
   );

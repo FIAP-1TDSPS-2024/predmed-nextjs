@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import Header from "@/components/Header";
+import Header from "@/components/common/Header";
 import Link from "next/link";
 
 interface Triagem {

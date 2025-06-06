@@ -1,8 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseFormRegister, FieldError } from "react-hook-form";
 
 type FormInputProps = {
   id: string;
   placeholder: string;
+  type?: string;
   register: UseFormRegister<any>;
   rules?: Record<string, any>;
   error?: FieldError;
@@ -10,6 +12,7 @@ type FormInputProps = {
 
 const FormInput = ({
   id,
+  type = "text",
   placeholder,
   register,
   rules,
@@ -18,7 +21,7 @@ const FormInput = ({
   return (
     <div className="w-full max-w-md">
       <input
-        type="text"
+        type={type}
         placeholder={placeholder}
         className={`p-2 pl-3 pr-20 w-full rounded border ${
           error ? "border-red-500" : "border-[#9E9E9E]"

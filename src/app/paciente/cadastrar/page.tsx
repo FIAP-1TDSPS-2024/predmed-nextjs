@@ -1,5 +1,5 @@
 "use client";
-import Header from "@/components/Header";
+import Header from "@/components/common/Header";
 import PatientForm from "@/components/pacient/PatientForm";
 
 const CadastrarPaciente = () => {
