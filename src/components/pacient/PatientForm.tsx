@@ -1,7 +1,7 @@
 "use client";
 import { useForm } from "react-hook-form";
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useState, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import Swal from "sweetalert2";
 
 import FormInput from "./FormInput";
@@ -18,16 +18,62 @@ export type PacienteFormData = {
   sexo: string;
 };
 
-const PatientForm = () => {
+interface PatientFormProps {
+  patientId?: string;
+}
+
+const PatientForm = ({ patientId }: PatientFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     reset,
+    setValue,
   } = useForm<PacienteFormData>();
 
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
+  const [currentPatientId, setCurrentPatientId] = useState<string | undefined>(
+    patientId
+  );
+
+  // Check for patient ID in URL when mounted
+  useEffect(() => {
+    // Function to load patient data for editing
+    const loadPatientData = async (id: string) => {
+      try {
+        setIsLoading(true);
+        const patient = await patientService.getPatient(id);
+
+        // Fill form with patient data
+        setValue("nome", patient.nome);
+        setValue("cpf", patient.cpf || "");
+        setValue("email", patient.email || "");
+        setValue("telefone", patient.celular || "");
+        setValue("dataNascimento", patient.dataNascimento || "");
+        setValue("sexo", patient.sexo || "");
+      } catch (error) {
+        console.error("Error loading patient data:", error);
+        Swal.fire({
+          title: "Erro!",
+          text: "Não foi possível carregar os dados do paciente.",
+          icon: "error",
+          confirmButtonColor: "#1E88E5",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    const idFromUrl = searchParams.get("id");
+    if (idFromUrl) {
+      setCurrentPatientId(idFromUrl);
+      setIsEditing(true);
+      loadPatientData(idFromUrl);
+    }
+  }, [searchParams, setValue]);
 
   const onSubmit = async (data: PacienteFormData) => {
     try {
@@ -35,7 +81,7 @@ const PatientForm = () => {
 
       // Format the data for the API
       const patientData: CreatePatientData = {
-        id: 0,
+        id: isEditing && currentPatientId ? parseInt(currentPatientId) : 0,
         nome: data.nome,
         cpf: data.cpf,
         email: data.email,
@@ -45,26 +91,36 @@ const PatientForm = () => {
       };
 
       // Send data to the backend via patientService
-      await patientService.createPatient(patientData);
+      if (isEditing && currentPatientId) {
+        await patientService.updatePatient(currentPatientId, patientData);
+      } else {
+        await patientService.createPatient(patientData);
+      }
 
       // Show success message
       Swal.fire({
         title: "Sucesso!",
-        text: "Paciente cadastrado com sucesso!",
+        text: isEditing
+          ? "Paciente atualizado com sucesso!"
+          : "Paciente cadastrado com sucesso!",
         icon: "success",
         confirmButtonColor: "#1E88E5",
       });
 
-      reset();
+      if (!isEditing) {
+        reset();
+      }
 
       // Redirect to patient list
       router.push("/paciente");
     } catch (error) {
-      console.error("Error creating patient:", error);
+      console.error("Error processing patient:", error);
 
       Swal.fire({
         title: "Erro!",
-        text: "Ocorreu um erro ao cadastrar o paciente. Tente novamente.",
+        text: isEditing
+          ? "Ocorreu um erro ao atualizar o paciente. Tente novamente."
+          : "Ocorreu um erro ao cadastrar o paciente. Tente novamente.",
         icon: "error",
         confirmButtonColor: "#1E88E5",
       });
@@ -158,6 +214,8 @@ const PatientForm = () => {
           <span className="flex items-center justify-center">
             Processando...
           </span>
+        ) : isEditing ? (
+          "Atualizar paciente"
         ) : (
           "Cadastrar paciente"
         )}

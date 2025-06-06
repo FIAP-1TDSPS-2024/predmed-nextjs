@@ -9,8 +9,8 @@ export const PatientList = ({ patients }: PatientListProps) => {
   return (
     <>
       {patients.length > 0 ? (
-        patients.map((patient, index) => (
-          <PatientCard key={index} patient={patient} />
+        patients.map((patient) => (
+          <PatientCard key={patient.id} patient={patient} />
         ))
       ) : (
         <div className="mt-4 text-black text-center">
