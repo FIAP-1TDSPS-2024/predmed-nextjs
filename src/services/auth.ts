@@ -30,7 +30,7 @@ export const authService = {
   // Logout function
   logout: () => {
     localStorage.removeItem("predmed_token");
-    // Redirect to login page or perform other logout actions
+    // No redirect here as navigation should be handled where logout is called
   },
 
   // Check if user is authenticated
