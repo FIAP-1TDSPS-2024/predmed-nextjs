@@ -1,15 +1,5 @@
 import api from "./api";
-import { Patient } from "../types/Patient";
-
-export interface CreatePatientData {
-  id: number;
-  nome: string;
-  cpf: string;
-  email: string;
-  celular: string;
-  dataNascimento: string;
-  sexo: "M" | "F";
-}
+import { CreatePatientData, Patient } from "../types/Patient";
 
 export const patientService = {
   // Get all patients
