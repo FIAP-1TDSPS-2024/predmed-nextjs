@@ -7,7 +7,8 @@ import Swal from "sweetalert2";
 import FormInput from "./FormInput";
 import FormRadio from "./FormRadio";
 
-import { patientService, CreatePatientData } from "@/services/patient";
+import { CreatePatientData } from "@/types/Patient";
+import { patientService } from "@/services/patient";
 
 export type PacienteFormData = {
   nome: string;
