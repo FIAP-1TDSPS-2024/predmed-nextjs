@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { StudentCard } from "@/components/StudentCard";
-import { Footer } from "@/components/Footer";
+import { Footer } from "@/components/common/Footer";
 
 const students = [
   {
