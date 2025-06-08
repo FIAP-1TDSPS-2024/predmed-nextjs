@@ -126,7 +126,7 @@ Senha: senha123
 #### Vídeo de demonstração
 
 ```
-[https://youtu.be/JUZi-lIVmG8](https://youtu.be/j8gSRUX502E?si=sb_lp42tqqc0jOEw)
+https://youtu.be/j8gSRUX502E?si=sb_lp42tqqc0jOEw
 ```
 
 #### Projeto em produção
