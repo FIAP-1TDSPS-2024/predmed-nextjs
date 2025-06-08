@@ -53,7 +53,7 @@ No ambiente de saúde, o gerenciamento eficiente de pacientes e o processo de tr
 
 🗄️ **Banco de Dados**
 
-- **OracleSQL** — Sistema de gerenciamento de banco de dados relacional
+- **OracleSQL / MySQL** — Sistema de gerenciamento de banco de dados relacional
 
 ---
 
