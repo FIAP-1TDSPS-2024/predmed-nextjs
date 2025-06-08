@@ -53,7 +53,7 @@ No ambiente de saúde, o gerenciamento eficiente de pacientes e o processo de tr
 
 🗄️ **Banco de Dados**
 
-- **OracleSQL / MySQL** — Sistema de gerenciamento de banco de dados relacional
+- **OracleSQL** — Sistema de gerenciamento de banco de dados relacional
 
 ---
 
@@ -155,12 +155,76 @@ https://github.com/wendellnd/predmed-nextjs
 
 ## 🚀 Inicializando o Projeto
 
-1. Clone o repositório:
+### Inicializando banco de dados
 
-   ```bash
-   git clone https://github.com/FIAP-1TDSPS-2024/predmed-nextjs.git
-   cd predmed-nextjs
-   ```
+1. Conecte no seu banco de dados `OracleSQL`
+
+2. Acesse a pasta `./server/banco_de_dados`
+
+3. Execute os scripts do arquivo `init.sql`
+
+### Inicializando API Python
+
+1. Acesse o diretório `./server/python`
+
+2. Instale as dependências
+
+```
+pip install -r requirements.txt
+```
+
+3. Execute o arquivo `server.py`
+
+```
+python server.py
+```
+
+4. O projeto será executado na porta 5000 - [http://localhost:5000](http://localhost:5000)
+
+### Inicializando API Java
+
+1. Acesse o diretório `./server/java`
+
+2. Instale as dependências
+
+```
+mvn dependency:install
+```
+
+3. Atualize as credenciais do banco de dados OracleSQL no arquivo `./src/main/resources/application.properties`
+
+```
+quarkus.datasource.username=seu_usuario
+quarkus.datasource.password=sua_senha
+```
+
+4. Configure a chave privada JWT como variável de ambiente:
+
+- Obs: A chave privada está no caminho `./server/java/src/main/resources/META-INF/resources/privateKey.pem`
+
+**Windows (PowerShell)**:
+
+```powershell
+$env:JWT_PRIVATE_KEY = cat "C:\caminho\para\sua\chave.key" -Raw
+```
+
+**macOS/Linux (Bash/ZSH)**:
+
+```bash
+export JWT_PRIVATE_KEY=$(cat "/caminho/para/sua/chave.key")
+```
+
+5. Inicialize o projeto
+
+```
+./mvnw quarkus:dev
+```
+
+6. O projeto será executado na porta 8080 - [http://localhost:8080](http://localhost:8080)
+
+### Inicializando Next.js
+
+1. Volte para o diretório raiz do projeto
 
 2. Instale as dependências:
 
